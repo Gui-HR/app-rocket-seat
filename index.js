@@ -1,5 +1,6 @@
 const { select, input, checkbox } = require('@inquirer/prompts')
 
+let mensagem = 'Bem vindo ao app de metas!'
 let metas = [
     {
         value: 'Ler a Bíblia',
@@ -15,8 +16,6 @@ const cadastrarMeta = async () => {
     }
 
     metas.push({value: meta, checked: false})
-
-    console.log(metas)
 }
 
 const listarMetas =  async () => {
@@ -29,7 +28,7 @@ const listarMetas =  async () => {
     metas.forEach(meta => meta.checked = false)
 
     if(respostas.lenght === 0) {
-        console.log('Nenhuma meta selecionada')
+        mensagem = 'Nenhuma meta selecionada'
         return
     }
 
@@ -41,7 +40,7 @@ const listarMetas =  async () => {
         meta.checked = true
     })
 
-    console.log('Metas marcadas como concluídas')
+    mensagem = 'Metas marcadas como concluídas'
 }
 
 const metasRealizadas = async () => {
@@ -50,7 +49,7 @@ const metasRealizadas = async () => {
     })
 
     if(realizadas.length === 0) {
-        console.log('Nenhuma meta foi realizada ainda')
+        mensagem = 'Nenhuma meta foi realizada ainda'
         return   
     }
 
@@ -66,7 +65,7 @@ const metasAbertas = async () => {
     })
 
     if(abertas.length === 0) {
-        console.log('Nenhuma meta está em aberto')
+        mensagem = 'Nenhuma meta está em aberto'
         return   
     }
 
@@ -88,7 +87,7 @@ const deletarMetas = async () => {
     })
 
     if(metasADeletar.length === 0) {
-        console.log('Nenhuma meta foi selecionada')
+        mensagem = 'Nenhuma meta foi selecionada'
         return
     }
 
@@ -96,11 +95,23 @@ const deletarMetas = async () => {
         metas = metas.filter(meta => {
             return meta.value != metaDeletada
         })
+    
     })
+}
+
+const mostrarMensagem = () => {
+    console.clear()
+
+    if(mensagem != '') {
+        console.log(mensagem)
+        console.log('')
+        mensagem = ''
+    }
 }
 
 const start = async () => {
     while(true){
+        mostrarMensagem()
 
         const opcao = await select({
             message: "---------Menu---------",
